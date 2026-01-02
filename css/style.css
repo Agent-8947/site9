@@ -1,0 +1,10 @@
+
+      :root {
+        --bg: #09090B; --text: #FFFFFF;
+        --accent: #3B82F6; --font: 'Space Grotesk', sans-serif;
+        --container: 1200px; --radius: 8px;
+      }
+      body { background: var(--bg); color: var(--text); font-family: var(--font); margin: 0; }
+      .dna-container { max-width: var(--container); margin: 0 auto; padding: 0 20px; }
+      .nav-fixed { position: fixed; top: 0; width: 100%; z-index: 100; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); }
+    

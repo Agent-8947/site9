@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>0</title>
+    <meta name="description" content="0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="./css/style.css">
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script src="./js/data.js"></script>
+    <script type="text/babel">
+        const { useEffect } = React;
+        const state = window.__DNA__;
+
+        const Renderer = ({ block, index }) => {
+            const { data={}, media={}, style={}, layout={} } = block.localOverrides || {};
+            const isNav = block.type.includes('Navbar') || block.type === 'B0101';
+            
+            const blockStyle = {
+                paddingTop: layout.paddingTop ? layout.paddingTop + 'px' : (isNav ? '0' : '100px'),
+                paddingBottom: layout.paddingBottom ? layout.paddingBottom + 'px' : (isNav ? '0' : '100px'),
+                backgroundColor: style.backgroundColor,
+                minHeight: layout.height || 'auto'
+            };
+
+            if (isNav) return (
+                <nav className="nav-fixed border-b border-white/10">
+                    <div className="dna-container h-20 flex items-center justify-between">
+                        <div className="text-xl font-bold tracking-tighter uppercase text-[var(--accent)]">
+                          {data.logoText || "DNA SYSTEM"}
+                        </div>
+                    </div>
+                </nav>
+            );
+
+            return (
+                <section style={blockStyle}>
+                    <div className="dna-container">
+                        <div className={"grid gap-12 " + (media.imageUrl ? "md:grid-cols-2" : "grid-cols-1")}>
+                            <div className="flex flex-col justify-center">
+                                {data.title && <h2 className="text-6xl font-black mb-6 uppercase">{data.title}</h2>}
+                                {data.description && <p className="text-xl opacity-60">{data.description}</p>}
+                            </div>
+                            {media.imageUrl && <img src={media.imageUrl} className="rounded-[var(--radius)] shadow-2xl" />}
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+
+        const App = () => (
+            <main>{state.pages[state.currentPage || 'home']?.filter(b => b.isVisible).map((b, i) => <Renderer key={b.id} block={b} index={i} />)}</main>
+        );
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+</html>
